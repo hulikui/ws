@@ -1,4 +1,6 @@
-# ws
+# 微信墙案例
+-Node.js+websocket
+-微信公众平台测试号
 ###config.js
 -必要的公众号配置
 ###token.js
