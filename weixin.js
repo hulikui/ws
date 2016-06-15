@@ -1,11 +1,7 @@
 /**
-  上一个例子的微信墙没有获得用户头像、名字等信息
-  这些信息要通过另一类微信API，也就是由服务器主动调用微信获得
-  这一类API的安全机制不同于之前，不再通过简单的TOKEN校验
-  而需要通过appID、appSecret获得access_token，然后再用
-  access_token获取相应的数据
+  
 
-  可以先看以下代码：
+  先看以下代码：
   lib/config.js - appID和appSecret配置
   lib/token.js  - 获得有效token
   lib/user.js   - 获得用户信息
@@ -31,7 +27,7 @@ function checkSignature(params, token){
   //1. 将token、timestamp、nonce三个参数进行字典序排序
   //2. 将三个参数字符串拼接成一个字符串进行sha1加密
   //3. 开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
-
+  //4,	数字签名验证，根据填写的token合成签名与微信服务器进行get验证，签名正确则通过服务器验证
   var key = [token, params.timestamp, params.nonce].sort().join('');
   var sha1 = require('crypto').createHash('sha1');
   sha1.update(key);
