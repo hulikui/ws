@@ -44,11 +44,11 @@ app.get('/wsq', function (req, res) {
   res.sendfile('./public/index.html')
 });
 
-app.get('*', function (request, response) {
+app.use(function (request, response) {
   //解析URL中的query部分，用qs模块(npm install qs)将query解析成json
   var query = require('url').parse(request.url).query;
   var params = qs.parse(query);
-
+  console.log(query, request.url);
   if(!checkSignature(params, TOKEN)){
     //如果签名不对，结束请求并返回
     response.end('signature fail');
