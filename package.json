@@ -7,10 +7,11 @@
     "validate": "node validate.js"
   },
   "dependencies": {
+    "express": "^4.16.2",
     "qs": "*",
+    "request": "*",
     "tmpl": "*",
-    "xml2js": "*",
     "ws": "*",
-    "request": "*"
+    "xml2js": "*"
   }
 }

@@ -10,9 +10,11 @@
 */
 
 var PORT = require('./lib/config').wxPort;
-var fs=require('fs');
+var fs = require('fs');
 var http = require('http');
 var qs = require('qs');
+var path = require('path');
+var express = require('express');
 var TOKEN = 'hulikui';
 var request = require('request');
 var getToken = require('./lib/token').getToken;
@@ -23,6 +25,9 @@ var wss = require('./lib/ws.js').wss;
 var getUserInfo=require('./lib/user').getUserInfo;
 var getImage=require('./lib/user').getImage;
 var replyText=require('./lib/reply').replyText;
+var app = express();
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('port', PORT);
 function checkSignature(params, token){
   //1. 将token、timestamp、nonce三个参数进行字典序排序
   //2. 将三个参数字符串拼接成一个字符串进行sha1加密
@@ -35,8 +40,11 @@ function checkSignature(params, token){
   return  sha1.digest('hex') == params.signature;
 }
 
-var server = http.createServer(function (request, response) {
+app.get('/wsq', function (req, res) {
+  res.sendfile('./public/index.html')
+});
 
+app.get('*', function (request, response) {
   //解析URL中的query部分，用qs模块(npm install qs)将query解析成json
   var query = require('url').parse(request.url).query;
   var params = qs.parse(query);
@@ -55,7 +63,7 @@ var server = http.createServer(function (request, response) {
     var postdata = "";
 
     request.addListener("data",function(postchunk){
-        postdata += postchunk;
+      postdata += postchunk;
     });
 
     //获取到了POST数据
@@ -63,37 +71,42 @@ var server = http.createServer(function (request, response) {
       var parseString = require('xml2js').parseString;
       parseString(postdata, function (err, result) {
         if(!err){
-		console.log(result);
-        if(result.xml.MsgType[0] === 'text'){
+          console.log(result);
+          if(result.xml.MsgType[0] === 'text'){
             getUserInfo(result.xml.FromUserName[0])
-            .then(function(userInfo){
-              //获得用户信息，合并到消息中
-              result.user = userInfo;
-              //将消息通过websocket广播
-              wss.broadcast(result);
-              var res = replyText(result, '文字消息推送成功！');
-             	console.log(res);
-		 response.end(res);
-            })}
-       else if(result.xml.MsgType[0] === 'image'){
+              .then(function(userInfo){
+                //获得用户信息，合并到消息中
+                result.user = userInfo;
+                //将消息通过websocket广播
+                wss.broadcast(result);
+                var res = replyText(result, '文字消息推送成功！');
+                console.log(res);
+                response.end(res);
+              })}
+          else if(result.xml.MsgType[0] === 'image'){
             getUserInfo(result.xml.FromUserName[0])
-            .then(function(userInfo){
-              //获得用户信息，合并到消息中
-              result.user = userInfo;
-              //将消息通过websocket广播
-              wss.broadcast(result);
-              var res = replyImg(result);
-		console.log(res);
-              response.end(res);
-            })
-	getImage(result.xml.MediaId[0]);
+              .then(function(userInfo){
+                //获得用户信息，合并到消息中
+                result.user = userInfo;
+                //将消息通过websocket广播
+                wss.broadcast(result);
+                var res = replyImg(result);
+                console.log(res);
+                response.end(res);
+              })
+            getImage(result.xml.MediaId[0]);
           }
         }
       });
     });
   }
+})
+
+
+var server = http.createServer(app);
+
+server.listen(app.get('port'), function () {
+  console.log("Weixin server runing at port: " + PORT + ".");
 });
 
-server.listen(PORT);
 
-console.log("Weixin server runing at port: " + PORT + ".");

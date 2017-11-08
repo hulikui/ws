@@ -1,0 +1,52 @@
+@charset "utf-8";
+/* CSS Document */
+html{ height:100%}
+body{ background: url(/image/bg.jpg) no-repeat center top; background-size:100% 100%}
+
+.yun{ position:fixed;}
+.yun1{ width:567px; height:185px; background:url(/image/yun1.png) no-repeat center center; left:1060px; top:318px;animation: myfirst6 50s linear infinite;-webkit-animation: myfirst6 50s linear infinite;}
+.yun2{ width:605px; height:253px; background: url(/image/yun2.png) no-repeat center center; left:180px; top:249px;animation: myfirst7 50s linear infinite;-webkit-animation: myfirst7 50s linear infinite;}
+.yun3{ width:348px; height:226px; background: url(/image/yun3.png) no-repeat center center; left:50px; top:500px;animation: myfirst8 50s linear infinite;-webkit-animation: myfirst8 50s linear infinite;}
+.yun4{ width:786px; height:362px; background:url(/image/yun4.png) no-repeat center center; left:762px; top:433px;animation: myfirst9 50s linear infinite;-webkit-animation: myfirst9 50s linear infinite;}
+
+@keyframes myfirst6
+{
+    from {left: 1060px;}
+    to {left: 1250px;}
+}
+@keyframes myfirst7
+{
+    from {left: 180px;}
+    to {left: 400px;}
+}
+@keyframes myfirst8
+{
+    from {left: 50px;}
+    to {left: 350px;}
+}
+@keyframes myfirst9
+{
+    from {left: 762px;}
+    to {left: 1000px;}
+}
+
+@-webkit-keyframes myfirst6
+{
+    from {left: 1060px;}
+    to {left: 1250px;}
+}
+@-webkit-keyframes myfirst7
+{
+    from {left: 180px;}
+    to {left: 400px;}
+}
+@-webkit-keyframes myfirst8
+{
+    from {left: 50px;}
+    to {left: 350px;}
+}
+@-webkit-keyframes myfirst9
+{
+    from {left: 762px;}
+    to {left: 1000px;}
+}

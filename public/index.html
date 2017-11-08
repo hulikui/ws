@@ -3,7 +3,7 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>微信墙v1.0</title>
+    <title>微信墙</title>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/bower_components/jquery/dist/jquery.min.js">
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/js/bootstrap.min.js">
@@ -33,23 +33,18 @@
 
 <body  youdao="bind">
 
-
 <div class="yun1 yun"> </div>
 <div class="yun2 yun"> </div>
 <div class="yun3 yun"> </div>
 <div class="yun4 yun"> </div>
 <script src="/js/Bubbles.js"></script>
-
 <script type="text/javascript">
+
   var msglist = document.getElementById('messages');
-  var ws = new WebSocket('ws://121.42.52.230:9902/');
+  var ws = new WebSocket('ws://114.67.143.10:9902/');
   var colorNum=['btn-warning','btn-danger','btn-info','btn-success','btn-primary'];
-
   var count=0;
-  ws.onmessage = function(evt)
-  {
-
-
+  ws.onmessage = function(evt) {
     var msg = JSON.parse(evt.data);
     var content = msg.xml.Content;
     msg.user = msg.user || {};
@@ -67,10 +62,7 @@
     count++;
     if(count>20){
       setTimeout('window.location.reload()',5000);
-
     }
-
-
   };
 </script>
 
