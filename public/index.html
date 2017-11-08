@@ -1,0 +1,78 @@
+﻿﻿<!DOCTYPE html>
+<!-- saved from url=(0046)http://www.etherdream.com/funnyscript/bubbles/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>微信墙v1.0</title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bower_components/jquery/dist/jquery.min.js">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/js/bootstrap.min.js">
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/css/common.css">
+
+    <style>
+        html, body
+        {
+            border: none;
+            overflow: hidden;
+            height: 100%;
+        }
+
+
+        .center{
+            position: relative;
+            margin-left:15%;
+            margin-top:15%;
+            word-break:break-all;width:150px;
+            opacity:0.9;
+        }
+        .show img {position:absolute;left:50px;top:85px;clip:rect(0px 100px 40px 0px);z-index: 0;*position:static;}
+        .show img:hover {position:relative; left:-3px; top:-3px; border:3px #f00 solid; z-index:2; clip:rect(0px 137px 137px 0px);}
+    </style>
+</head>
+
+<body  youdao="bind">
+
+
+<div class="yun1 yun"> </div>
+<div class="yun2 yun"> </div>
+<div class="yun3 yun"> </div>
+<div class="yun4 yun"> </div>
+<script src="/js/Bubbles.js"></script>
+
+<script type="text/javascript">
+  var msglist = document.getElementById('messages');
+  var ws = new WebSocket('ws://121.42.52.230:9902/');
+  var colorNum=['btn-warning','btn-danger','btn-info','btn-success','btn-primary'];
+
+  var count=0;
+  ws.onmessage = function(evt)
+  {
+
+
+    var msg = JSON.parse(evt.data);
+    var content = msg.xml.Content;
+    msg.user = msg.user || {};
+    var userName = msg.user.nickname;
+    var headimg = msg.user.headimgurl;
+    var index=parseInt(Math.random()*5);
+    var imgid=msg.xml.MediaId;
+    var imgurl='/images/'+imgid+'.png';
+    if(msg.xml.MsgType=="image"){
+      var tag='<div  id="" class="center '+colorNum[index]+' btn-lg ">'+userName + '<img style="width: 32px" src="'+headimg+'"></div><div class="show"><img  src="'+imgurl+'"></div>';
+    }else{
+      var tag= '<div  id="" class="center '+colorNum[index]+' btn-lg ">'+userName + '<img style="width: 32px" src="'+headimg+'">' + '说:' + content+'</div>';
+    }
+    CreateBubble(tag);
+    count++;
+    if(count>20){
+      setTimeout('window.location.reload()',5000);
+
+    }
+
+
+  };
+</script>
+
+
+</body></html>
