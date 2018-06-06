@@ -3,11 +3,14 @@
   "description": "weixin development",
   "version": "0.0.1",
   "scripts": {
-    "start": "node index.js",
+    "start": "node weixin.js",
     "validate": "node validate.js"
   },
   "dependencies": {
+    "async": "^2.6.1",
+    "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.2",
+    "node-schedule": "^1.3.0",
     "qs": "*",
     "request": "*",
     "tmpl": "*",
