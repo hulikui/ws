@@ -46,18 +46,26 @@ var options = {
 
 
 function fetchTemplate(openid, callback) {
+    let times = 0;
     getToken(appID, appSecret).then(function(token){
-        options.uri = `${url}${token}`;
-        options.json = Object.assign(json, {
-            touser:  openid,
-            url: 'http://114.67.143.10:9206/list'
-        });
-        request(options, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                callback(body)
-            }
-            console.log(error, response, body)
-        });
+        const {access_token} = token;
+        if (access_token && times === 0) {
+            times ++;
+            options.uri = `${url}${access_token}`;
+            options.json = Object.assign(json, {
+                touser:  openid,
+                url: 'http://114.67.143.10:9206/list'
+            });
+            request(options, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    callback && callback(body)
+                    console.log(body)
+                } else {
+                    console.log(error)
+                }
+            });
+        }
+
     });
 }
 
