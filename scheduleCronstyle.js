@@ -9,6 +9,8 @@ var process = require('child_process');
 request = request.defaults({jar: true})
 var base_bj_url = 'http://bbs.cloud.icybee.cn';
 var yingjisheng_url = 'http://s.yingjiesheng.com/search.php?word=%E5%89%8D%E7%AB%AF%E6%88%B7%E5%8F%A3&area=1056&jobterm=0&sort=date&start=';
+var yingjiesheng_url_1 = "http://s.yingjiesheng.com/search.php?word=web+%E5%8C%97%E4%BA%AC%E6%88%B7%E5%8F%A3&sort=date&start=";// web + 北京户口
+
 var beiyou_url = 'http://bbs.cloud.icybee.cn/board/Job?p='
 let res = [];
 
@@ -127,7 +129,7 @@ function start() {
         console.log('新建output文件夹');
         process.exec('mkdir output');
     }
-    [beiyou_url, yingjisheng_url].map(function (url) {
+    [beiyou_url, yingjisheng_url, yingjiesheng_url_1].map(function (url) {
         [0, 1, 2].map(num => {
             let byoptinons = {
                 url: url + (num +1),
