@@ -52,6 +52,9 @@ app.get('/list', function (req, res) {
         let list = fs.readFileSync('./output/filelist.json', {encoding: 'utf-8'});
         try {
             list = JSON.parse(list);
+            list.sort(function (a, b) {
+                return new Date(b.time || 0) - new Date(a.time || 0)
+            });
             res.set('Content-Type', 'text/html');
             let str = list.map(item => (`<li><h4><a href="${item.href}">${item.title}</a></h4><p>${item.time}</p></li>`)).join('');
             str = `<ol>${str}</ol>`
